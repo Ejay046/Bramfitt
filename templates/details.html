@@ -15,24 +15,30 @@
 </div>
 <div>
     <p style="padding-left: 1%;"><b>Retrived on:</b> {{record.requested_time.strftime("%x @ %X")}}</p>
-    <table class="table table-hover">
-        <tr class="table-primary">
-            <th>Vehicle</th>
-            <th>Direction</th>
-            <th>Towards</th>
-            <th>Expected Arrival</th>
-            <th>Current Location </th>
-        </tr>
-        {% for i in range(length) %}
-        <tr>
-            <td><b>{{information[i]['lineName']}}</b> {{information[i]['modeName']}} towards {{information[i]['destinationName']}}</td>
-            <td>{{information[i]['direction']}}</td>
-            <td>{{information[i]['towards']}}</td>
-            <td><b>{{information[i]['expectedArrival'][11:-4]}}</b></td>
-            <td>{{information[i]['currentLocation']}}</td>
-        </tr>
-        {%endfor%}
-    </table>
+        <table class="table table-hover">
+            <tr class="table-primary">
+                <th>Vehicle</th>
+                <th>Direction</th>
+                <th>Towards</th>
+                <th>Expected Arrival</th>
+                <th>Current Location </th>
+            </tr>
+            {% for i in range(length) %}
+            <tr>
+                <td><b>{{information[i]['lineName']}}</b> {{information[i]['modeName']}} towards {{information[i]['destinationName']}}</td>
+                <td>{{information[i]['direction']}}</td>
+                <td>{{information[i]['towards']}}</td>
+                <td><b>{{information[i]['expectedArrival'][11:-4]}}</b></td>
+                <td>{{information[i]['currentLocation']}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+</div>
+<div class='jumbotron'>
+    <h6><u> Json infromation recieved</u></h6>
+    <p>
+        {{record.request_info}}
+    </p>
 </div>
 <div style="text-align:center">
     <a class="btn btn-primary" href="/history">View History</a>

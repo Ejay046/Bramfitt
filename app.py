@@ -3,18 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.dialects.postgresql import JSON
 from datetime import datetime
 import requests
+import json
 
 app = Flask(__name__)
 
-ENV = 'dev'
 
-if ENV == 'dev':
-    app.debug = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ejay046:Password101!@localhost/technical_test_db'
-else:
-    app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = ''
+DATABASE = 'postgresql:///test_db'
 
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -41,14 +37,17 @@ def index():
     if request.method == 'POST':
         current_time = datetime.utcnow()
         response = requests.get(url)
-        info = response.json()
-        new_record = Record(request_info=info, requested_time=current_time)
-        try:
-            db.session.add(new_record)
-            db.session.commit()
-            return redirect(url_for('details', id=new_record.id))
-        except:
-            return 'There was an issue storing your request'
+        if response.json() != []:
+            info = response.json()
+            new_record = Record(request_info=info, requested_time=current_time)
+            try:
+                db.session.add(new_record)
+                db.session.commit()
+                return redirect(url_for('details', id=new_record.id))
+            except:
+                return 'There was an issue storing your request'
+        else:
+            return render_template('noInfo.html')
     else:
         return render_template('index.html')
 
@@ -65,11 +64,11 @@ def details(id):
     return render_template('details.html', record=record, length=len(record.request_info), information=record.request_info)
 
 
-@app.route('/details/<int:id>/json')
+@app.route('/details/<int:id>/json', methods=['GET'])
 def view_json(id):
     record = Record.query.get_or_404(id)
-    return render_template('json.html', record=record)
+    return json.dumps(record)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

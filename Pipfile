@@ -4,12 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
-datetime = "*"
-flask-sqlalchemy = "*"
+Flask = "*"
+DateTime = "*"
+Flask-SQLAlchemy = "*"
 requests = "*"
+pytest = "*"
+SQLAlchemy-Utils = "*"
+Flask-WTF = "*"
 psycopg2-binary = "*"
-gunicorn = "*"
 
 [dev-packages]
 
