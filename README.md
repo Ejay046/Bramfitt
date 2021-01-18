@@ -19,6 +19,7 @@ _or create a local postgres DB named test_db to use the current database setting
 
 Then in a python prompt, run the following commands and exit:
 > from app import db
+
 > db.create_all()
 
 To run the application from your local shell, run the following:
